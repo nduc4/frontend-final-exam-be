@@ -12,7 +12,13 @@ import { SignInDto } from './dto/signIn.dto';
 import { SignUpDto } from './dto/signUp.dto';
 import { Public } from 'src/common/decorators/public.decorator';
 import { ApiController } from 'src/common/decorators/apiController.decorator';
-import { ApiBody, ApiConflictResponse, ApiOkResponse, ApiOperation, ApiParam } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiConflictResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiParam,
+} from '@nestjs/swagger';
 import { UserModel } from 'src/user/data/user.model';
 import { Note } from 'src/common/decorators/note.decorator';
 import { UserService } from './user.service';

@@ -4,12 +4,13 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { LoanRepo } from './data/loan.repo';
-import { CreateLoanDto } from './dto/create-loan.dto';
 import { BookStatus } from 'src/common/enums/status.enum';
-import { ReturnLoanDto } from './dto/return-loan.dto';
 import { BookInstanceRepo } from 'src/book-instance/data/book-instance.repo';
 import { Loan } from './data/loan.schema';
 import { UserRepo } from 'src/user/data/user.repo';
+import { PageAbleDto } from 'src/common/dto/pageable.dto';
+import mongoose from 'mongoose';
+import { UserRole } from 'src/common/enums/role.enum';
 
 @Injectable()
 export class LoanService {
@@ -19,8 +20,37 @@ export class LoanService {
     private readonly _userRepo: UserRepo,
   ) {}
 
-  async getAllLoan() {
-    return await this._loanRepo.getAll()
+  async getAllLoan(req, dto: PageAbleDto) {
+    const userId: string = req.user.sub;
+    const userRole: UserRole = req.user.role;
+    const pageQuery = {
+      page: dto.page,
+      limit: dto.limit,
+    };
+
+    let totalDocuments;
+    let totalPages;
+    let data;
+
+    if (userRole === UserRole.READER) {
+      totalDocuments = await this._loanRepo.count({
+        user_id: new mongoose.Types.ObjectId(userId),
+      });
+      totalPages = Math.ceil(totalDocuments / dto.limit);
+      data = await this._loanRepo.getPage(pageQuery, {
+        user_id: new mongoose.Types.ObjectId(userId),
+      });
+    } else {
+      totalDocuments = await this._loanRepo.count();
+      totalPages = Math.ceil(totalDocuments / dto.limit);
+      data = await this._loanRepo.getPage(pageQuery);
+    }
+
+    return {
+      totalPages,
+      totalDocuments,
+      data,
+    };
   }
 
   async loanBook(req, bookInstanceId: string): Promise<Loan> {
@@ -44,13 +74,14 @@ export class LoanService {
       book_instance_id: bookInstance._id,
       loan_date: new Date(),
       due_date: this.calculateDueDate(),
+      book_instance_status: BookStatus.LOANED,
     });
 
     await this._bookInstanceRepo.updateById(bookInstanceId, {
       status: BookStatus.LOANED,
     });
 
-    return loan;
+    return await this._loanRepo.getById(loan._id.toString());
   }
 
   async returnBook(loanId: string): Promise<Loan> {
@@ -66,13 +97,17 @@ export class LoanService {
 
     const updatedLoan = await this._loanRepo.updateById(loanId, {
       return_date: new Date(),
+      book_instance_status: BookStatus.RETURNED,
     });
 
-    await this._bookInstanceRepo.updateById(loan.book_instance_id._id.toString(), {
-      status: BookStatus.AVAILABLE,
-    });
+    await this._bookInstanceRepo.updateById(
+      loan.book_instance_id._id.toString(),
+      {
+        status: BookStatus.AVAILABLE,
+      },
+    );
 
-    return updatedLoan;
+    return await this._loanRepo.getById(updatedLoan._id.toString());
   }
 
   private calculateDueDate(): Date {

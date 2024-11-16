@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { BaseModel } from 'src/common/base/model';
+import { BookStatus } from 'src/common/enums/status.enum';
 
 export class LoanModel extends BaseModel {
   @ApiProperty({ example: '2024-01-01T00:00:00Z' })
@@ -22,4 +23,10 @@ export class LoanModel extends BaseModel {
     example: 'gIq7dCYtfOeXpKCw...',
   })
   public book_instance_id: string;
+
+  @ApiProperty({
+    enum: BookStatus,
+    example: BookStatus.LOANED,
+  })
+  public status: BookStatus.LOANED;
 }

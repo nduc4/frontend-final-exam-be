@@ -112,23 +112,25 @@ export class BookService {
   async updateBook(id: string, dto: UpdateBookDto) {
     const authorIds = [];
     if (dto.authors && dto.authors.length > 0) {
-    for (const authorName of dto.authors) {
-      let author = await this.authorService.getAuthorByName(authorName);
-      if (!author) {
-        author = await this.authorService.createAuthor(authorName);
+      for (const authorName of dto.authors) {
+        let author = await this.authorService.getAuthorByName(authorName);
+        if (!author) {
+          author = await this.authorService.createAuthor(authorName);
+        }
+        authorIds.push(author._id);
       }
-      authorIds.push(author._id);
-    }}
+    }
 
     const genreIds = [];
     if (dto.genres && dto.genres.length > 0) {
-    for (const genreName of dto.genres) {
-      let genre = await this.genreService.getGenreByName(genreName);
-      if (!genre) {
-        genre = await this.genreService.createGenre(genreName);
+      for (const genreName of dto.genres) {
+        let genre = await this.genreService.getGenreByName(genreName);
+        if (!genre) {
+          genre = await this.genreService.createGenre(genreName);
+        }
+        genreIds.push(genre._id);
       }
-      genreIds.push(genre._id);
-    }}
+    }
 
     const updatedData: Partial<Book> = {
       title: dto.title,
@@ -145,7 +147,7 @@ export class BookService {
     }
 
     await this._bookRepo.updateById(id, updatedData);
-    return await this._bookRepo.getById(id)
+    return await this._bookRepo.getById(id);
   }
 
   async deleteBook(id: string) {

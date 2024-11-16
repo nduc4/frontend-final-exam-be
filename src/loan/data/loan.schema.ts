@@ -33,9 +33,16 @@ export class Loan extends BaseSchema {
     type: mongoose.Types.ObjectId,
     ref: BookInstance.name,
     required: true,
-    autopopulate: true,
+    autopopulate: false,
   })
   book_instance_id: mongoose.Types.ObjectId;
+
+  @Prop({
+    type: String,
+    required: true,
+    default: BookStatus.LOANED,
+  })
+  book_instance_status: string;
 }
 
 export const LoanSchema = SchemaFactory.createForClass(Loan);

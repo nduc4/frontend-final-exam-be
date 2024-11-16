@@ -18,9 +18,9 @@ export class BookInstanceController {
   @Get('/:bookId')
   @Public()
   @Note({
-    title: "Liệt kê bản sao của sách theo ID sách",
+    title: 'Liệt kê bản sao của sách theo ID sách',
     isInput: true,
-    isPublic: true
+    isPublic: true,
   })
   @ApiParam({ name: 'bookId', type: 'string', required: true })
   @ApiOkResponse({
@@ -36,18 +36,20 @@ export class BookInstanceController {
   @Note({
     title: 'Xoá bản sao của sách theo ID bản sao sách (ADMIN, LIBRARIAN)',
     isInput: true,
-    isForbidden: true
+    isForbidden: true,
   })
   @ApiParam({
     name: 'bookInstanceId',
     type: 'string',
-    required: true
+    required: true,
   })
   @ApiOkResponse({
     description: 'OK',
-    type: BookInstanceModel
+    type: BookInstanceModel,
   })
-  async deleteBookInstanceById(@Param('bookInstanceId') bookInstanceId: string) {
-    return await this.bookInstanceService.deleteBookInstance(bookInstanceId)
+  async deleteBookInstanceById(
+    @Param('bookInstanceId') bookInstanceId: string,
+  ) {
+    return await this.bookInstanceService.deleteBookInstance(bookInstanceId);
   }
 }

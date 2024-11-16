@@ -12,7 +12,9 @@ export class BookInstanceService {
   constructor(private readonly _bookInstanceRepo: BookInstanceRepo) {}
 
   async findAllByBookId(bookId: string) {
-    return this._bookInstanceRepo.getAll({ book_id: new mongoose.Types.ObjectId(bookId) })
+    return this._bookInstanceRepo.getAll({
+      book_id: new mongoose.Types.ObjectId(bookId),
+    });
   }
 
   async getBookInstanceById(dto: ObjectIdDto) {

@@ -74,7 +74,7 @@ export class BookController {
   @Roles(UserRole.ADMIN, UserRole.LIBRARIAN)
   @ApiOkResponse({
     description: 'OK',
-    type: BookModel
+    type: BookModel,
   })
   async deleteBook(@Param('bookId') id: string) {
     return await this.bookService.deleteBook(id);
