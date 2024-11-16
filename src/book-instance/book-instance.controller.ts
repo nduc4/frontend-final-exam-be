@@ -15,32 +15,6 @@ import { Public } from 'src/common/decorators/public.decorator';
 export class BookInstanceController {
   constructor(private readonly bookInstanceService: BookInstanceService) {}
 
-  // @Put('/:id')
-  // @Roles(UserRole.ADMIN, UserRole.LIBRARIAN)
-  // @Note({
-  //   title: 'Cập nhật trạng thái của sách',
-  //   isInput: true,
-  // })
-  // @ApiParam({
-  //   name: 'id',
-  //   required: true,
-  //   description: 'ID của bản sao sách',
-  //   type: String,
-  // })
-  // @ApiOkResponse({
-  //   description: 'OK',
-  //   type: BookInstanceModel,
-  // })
-  // async updateBookInstance(
-  //   @Param() objectIdDto: ObjectIdDto,
-  //   @Body() dto: UpdateBookInstanceDto,
-  // ) {
-  //   return await this.bookInstanceService.updateBookInstanceById(
-  //     objectIdDto,
-  //     dto,
-  //   );
-  // }
-
   @Get('/:bookId')
   @Public()
   @Note({
@@ -51,7 +25,7 @@ export class BookInstanceController {
   @ApiParam({ name: 'bookId', type: 'string', required: true })
   @ApiOkResponse({
     description: 'OK',
-    type: BookInstanceModel,
+    type: [BookInstanceModel],
   })
   async getInstancesByBookId(@Param('bookId') bookId: string) {
     return this.bookInstanceService.findAllByBookId(bookId);

@@ -19,6 +19,10 @@ export class LoanService {
     private readonly _userRepo: UserRepo,
   ) {}
 
+  async getAllLoan() {
+    return await this._loanRepo.getAll()
+  }
+
   async loanBook(req, bookInstanceId: string): Promise<Loan> {
     const user = await this._userRepo.getById(req.user.sub);
 

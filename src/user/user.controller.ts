@@ -12,7 +12,7 @@ import { SignInDto } from './dto/signIn.dto';
 import { SignUpDto } from './dto/signUp.dto';
 import { Public } from 'src/common/decorators/public.decorator';
 import { ApiController } from 'src/common/decorators/apiController.decorator';
-import { ApiConflictResponse, ApiOkResponse, ApiParam } from '@nestjs/swagger';
+import { ApiBody, ApiConflictResponse, ApiOkResponse, ApiOperation, ApiParam } from '@nestjs/swagger';
 import { UserModel } from 'src/user/data/user.model';
 import { Note } from 'src/common/decorators/note.decorator';
 import { UserService } from './user.service';
@@ -41,6 +41,23 @@ export class UserController {
         access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
       },
     },
+  })
+  @ApiOperation({
+    summary: 'API Đăng nhập',
+    description: `Sử dụng thông tin đăng nhập sau để thử nghiệm:
+    
+    Admin:
+    - Email: admin@example.com
+    - Mật khẩu: thisisapassword
+
+    Librarian:
+    - Email: librarian@example.com
+    - Mật khẩu: thisisapassword
+
+    User:
+    - Email: user@example.com
+    - Mật khẩu: thisisapassword
+    `,
   })
   async signIn(@Body() dto: SignInDto) {
     return await this.userService.signIn(dto);
