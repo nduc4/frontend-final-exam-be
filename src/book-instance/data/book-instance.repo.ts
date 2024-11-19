@@ -10,4 +10,12 @@ export class BookInstanceRepo extends BaseRepo<BookInstance> {
   ) {
     super(bookModel);
   }
+
+  async getDetailById(bookInstanceId: string): Promise<BookInstance> {
+    return this.bookModel
+      .findById(bookInstanceId)
+      .populate('book_id', 'title author genre')
+      .exec();
+  }
+
 }

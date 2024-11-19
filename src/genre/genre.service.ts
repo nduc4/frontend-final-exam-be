@@ -1,4 +1,4 @@
-import { ConsoleLogger, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { GenreRepo } from './data/genre.repo';
 import { Genre } from './data/genre.schema';
 import { ObjectIdDto } from 'src/common/dto/objectId.dto';

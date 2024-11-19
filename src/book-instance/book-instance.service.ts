@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { BookInstanceRepo } from './data/book-instance.repo';
 import { BookInstance } from './data/book-instance.schema';
 import { BookStatus } from 'src/common/enums/status.enum';
@@ -10,6 +10,14 @@ import mongoose from 'mongoose';
 @Injectable()
 export class BookInstanceService {
   constructor(private readonly _bookInstanceRepo: BookInstanceRepo) {}
+
+  async getDetail(bookInstanceId: string): Promise<BookInstance> {
+    const bookInstance = await this._bookInstanceRepo.getDetailById(bookInstanceId);
+    if (!bookInstance) {
+      throw new NotFoundException('Book instance not found');
+    }
+    return bookInstance;
+  }
 
   async findAllByBookId(bookId: string) {
     return this._bookInstanceRepo.getAll({

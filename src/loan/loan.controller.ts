@@ -1,6 +1,6 @@
 import { ApiController } from 'src/common/decorators/apiController.decorator';
 import { LoanService } from './loan.service';
-import { Body, Get, Param, Post, Query, Req } from '@nestjs/common';
+import { Get, Param, Post, Query, Req } from '@nestjs/common';
 import { Loan } from './data/loan.schema';
 import { Note } from 'src/common/decorators/note.decorator';
 import { ApiOkResponse } from '@nestjs/swagger';

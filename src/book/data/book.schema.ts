@@ -1,9 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
-import mongooseAutoPopulate from 'mongoose-autopopulate';
 import { Author } from 'src/author/data/author.schema';
 import { BaseSchema } from 'src/common/base/schema';
-import { BookStatus } from 'src/common/enums/status.enum';
 import { Genre } from 'src/genre/data/genre.schema';
 
 @Schema({

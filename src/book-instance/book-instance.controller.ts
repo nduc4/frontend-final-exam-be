@@ -1,19 +1,28 @@
 import { ApiController } from 'src/common/decorators/apiController.decorator';
 import { BookInstanceService } from './book-instance.service';
 import { Note } from 'src/common/decorators/note.decorator';
-import { Body, Delete, Get, Param, Put } from '@nestjs/common';
-import { UpdateBookInstanceDto } from './dto/update-bookInstance.dto';
-import { ApiBody, ApiOkResponse, ApiParam, ApiProperty } from '@nestjs/swagger';
-import { ObjectIdDto } from 'src/common/dto/objectId.dto';
-import { BookModel } from 'src/book/data/book.model';
+import { Delete, Get, Param } from '@nestjs/common';
+import { ApiOkResponse, ApiParam } from '@nestjs/swagger';
 import { UserRole } from 'src/common/enums/role.enum';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { BookInstanceModel } from './data/book-instance.model';
 import { Public } from 'src/common/decorators/public.decorator';
+import { BookInstance } from './data/book-instance.schema';
 
 @ApiController('/api/book-instance')
 export class BookInstanceController {
   constructor(private readonly bookInstanceService: BookInstanceService) {}
+
+  @Get('detail/:bookInstanceId')
+  @Public()
+  @Note({
+    title: 'Trả về thông tin sách dựa vào ID bản sao sách',
+    isInput: true,
+    isPublic: true
+  })
+  async getDetail(@Param('bookInstanceId') bookInstanceId: string): Promise<BookInstance> {
+    return this.bookInstanceService.getDetail(bookInstanceId);
+  }
 
   @Get('/:bookId')
   @Public()
