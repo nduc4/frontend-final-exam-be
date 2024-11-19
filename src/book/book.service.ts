@@ -159,4 +159,8 @@ export class BookService {
     });
     return await this._bookRepo.deleteById(id);
   }
+
+  async getBookById(id: string) {
+    return await this._bookRepo.getById(id)
+  }
 }
