@@ -18,9 +18,11 @@ export class BookInstanceController {
   @Note({
     title: 'Trả về thông tin sách dựa vào ID bản sao sách',
     isInput: true,
-    isPublic: true
+    isPublic: true,
   })
-  async getDetail(@Param('bookInstanceId') bookInstanceId: string): Promise<BookInstance> {
+  async getDetail(
+    @Param('bookInstanceId') bookInstanceId: string,
+  ): Promise<BookInstance> {
     return this.bookInstanceService.getDetail(bookInstanceId);
   }
 

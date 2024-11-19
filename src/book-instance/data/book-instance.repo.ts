@@ -17,5 +17,4 @@ export class BookInstanceRepo extends BaseRepo<BookInstance> {
       .populate('book_id', 'title author genre')
       .exec();
   }
-
 }

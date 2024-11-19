@@ -12,7 +12,8 @@ export class BookInstanceService {
   constructor(private readonly _bookInstanceRepo: BookInstanceRepo) {}
 
   async getDetail(bookInstanceId: string): Promise<BookInstance> {
-    const bookInstance = await this._bookInstanceRepo.getDetailById(bookInstanceId);
+    const bookInstance =
+      await this._bookInstanceRepo.getDetailById(bookInstanceId);
     if (!bookInstance) {
       throw new NotFoundException('Book instance not found');
     }
