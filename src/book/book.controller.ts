@@ -15,21 +15,6 @@ import { UpdateBookDto } from './dto/update-book.dto';
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
-  @Get('/:bookId')
-  @Note({
-    title: 'Lấy thông tin sách bằng ID',
-    isInput: true,
-    isPublic: true,
-  })
-  @Public()
-  @ApiOkResponse({
-    description: 'OK',
-    type: BookModel,
-  })
-  async getBookById(@Param('bookId') id: string) {
-    return await this.bookService.getBookById(id)
-  }
-
   @Post()
   @Note({
     title: 'Tạo sách mới (ADMIN, LIBRARIAN)',
