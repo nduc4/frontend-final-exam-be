@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Types } from 'mongoose';
+import mongoose from 'mongoose';
 import { Author } from 'src/author/data/author.schema';
 import { BaseSchema } from 'src/common/base/schema';
 import { Genre } from 'src/genre/data/genre.schema';
@@ -15,20 +15,18 @@ export class Book extends BaseSchema {
   published_year: Date;
 
   @Prop({
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: Author.name,
+    type: [{ type: mongoose.Types.ObjectId, ref: Author.name }],
     required: true,
-    autopopulate: true
+    autopopulate: true,
   })
-  author_id: Types.ObjectId[];
+  author_id: mongoose.Types.ObjectId[];
 
   @Prop({
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: Genre.name,
+    type: [{ type: mongoose.Types.ObjectId, ref: Genre.name }],
     required: true,
-    autopopulate: true
+    autopopulate: true,
   })
-  genre_id: Types.ObjectId[];
+  genre_id: mongoose.Types.ObjectId[];
 }
 
 export const BookSchema = SchemaFactory.createForClass(Book);

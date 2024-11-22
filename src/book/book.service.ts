@@ -161,6 +161,6 @@ export class BookService {
   }
 
   async getBookById(id: string) {
-    return await this._bookRepo.getById(id);
+    return await this._bookRepo.getById(id)
   }
 }

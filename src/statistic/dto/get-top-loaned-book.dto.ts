@@ -4,13 +4,10 @@ import { Type } from 'class-transformer';
 
 export class GetTopLoanedBookDto {
   @ApiProperty({
-    description:
-      'Khoảng thời gian để lọc sách. Các giá trị cho phép: month, quarter, year.',
+    description: 'Khoảng thời gian để lọc sách. Các giá trị cho phép: month, quarter, year.',
     example: 'month',
   })
-  @IsIn(['month', 'quarter', 'year'], {
-    message: 'Invalid period. Allowed values: month, quarter, year.',
-  })
+  @IsIn(['month', 'quarter', 'year'], { message: 'Invalid period. Allowed values: month, quarter, year.' })
   period: 'month' | 'quarter' | 'year';
 
   @ApiProperty({

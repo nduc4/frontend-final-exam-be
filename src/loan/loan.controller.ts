@@ -13,15 +13,20 @@ export class LoanController {
 
   @Get()
   @Note({
-    title:
-      'Trả về tất cả phiếu mượn của User đó, nếu là admin thì trả về tất cả phiếu mượn có trong hệ thống',
+    title: 'Trả về tất cả phiếu mượn của User đó',
   })
   @ApiOkResponse({
     description: 'OK',
-    type: [LoanModel],
+    schema: {
+      example: {
+        totalPages: 1,
+        totalDocuments: 10,
+        data: [],
+      },
+    },
   })
-  async getAllLoan(@Req() req) {
-    return await this.loanService.getAllLoan(req);
+  async getAllLoan(@Req() req, @Query() dto: PageAbleDto) {
+    return await this.loanService.getAllLoan(req, dto);
   }
 
   @Post('/:bookInstanceId')

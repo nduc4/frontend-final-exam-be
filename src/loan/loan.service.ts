@@ -20,10 +20,37 @@ export class LoanService {
     private readonly _userRepo: UserRepo,
   ) {}
 
-  async getAllLoan(req) {
-    const userId = req.user.sub;
-    const role = req.user.role;
-    return await this._loanRepo.getLoansByRole(userId, role);
+  async getAllLoan(req, dto: PageAbleDto) {
+    const userId: string = req.user.sub;
+    const userRole: UserRole = req.user.role;
+    const pageQuery = {
+      page: dto.page,
+      limit: dto.limit,
+    };
+
+    let totalDocuments;
+    let totalPages;
+    let data;
+
+    if (userRole === UserRole.READER) {
+      totalDocuments = await this._loanRepo.count({
+        user_id: new mongoose.Types.ObjectId(userId),
+      });
+      totalPages = Math.ceil(totalDocuments / dto.limit);
+      data = await this._loanRepo.getPage(pageQuery, {
+        user_id: new mongoose.Types.ObjectId(userId),
+      });
+    } else {
+      totalDocuments = await this._loanRepo.count();
+      totalPages = Math.ceil(totalDocuments / dto.limit);
+      data = await this._loanRepo.getPage(pageQuery);
+    }
+
+    return {
+      totalPages,
+      totalDocuments,
+      data,
+    };
   }
 
   async loanBook(req, bookInstanceId: string): Promise<Loan> {
