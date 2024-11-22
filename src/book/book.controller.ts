@@ -27,7 +27,7 @@ export class BookController {
     type: BookModel,
   })
   async getBookById(@Param('bookId') id: string) {
-    return await this.bookService.getBookById(id);
+    return await this.bookService.getBookById(id)
   }
 
   @Post()
