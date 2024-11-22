@@ -9,13 +9,13 @@ import { GetTopLoanedBookDto } from './dto/get-top-loaned-book.dto';
 @ApiController('/api/statistic')
 export class StatisticController {
   constructor(private readonly statisticsService: StatisticService) {}
-  
+
   @Get('top-borrowed-books')
   @Public()
   @Note({
     title: 'Trả về danh sách sách được mượn nhiều nhất',
     isInput: true,
-    isPublic: true
+    isPublic: true,
   })
   @ApiResponse({
     status: 200,
@@ -44,9 +44,10 @@ export class StatisticController {
       },
     },
   })
-  async getTopBorrowedBooks(
-    @Query() query: GetTopLoanedBookDto,
-  ) {
-    return this.statisticsService.getTopBorrowedBooks(query.period, query.limit);
+  async getTopBorrowedBooks(@Query() query: GetTopLoanedBookDto) {
+    return this.statisticsService.getTopBorrowedBooks(
+      query.period,
+      query.limit,
+    );
   }
 }

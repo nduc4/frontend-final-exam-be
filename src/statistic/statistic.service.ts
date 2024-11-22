@@ -6,7 +6,7 @@ import { LoanRepo } from 'src/loan/data/loan.repo';
 export class StatisticService {
   constructor(
     private readonly loanRepo: LoanRepo,
-    private readonly bookRepo: BookRepo
+    private readonly bookRepo: BookRepo,
   ) {}
   async getTopBorrowedBooks(
     period: 'month' | 'quarter' | 'year',
